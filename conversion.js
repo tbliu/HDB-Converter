@@ -2,8 +2,6 @@
  * Computes conversions between hex, decimal, and binary 
  */
 
-// TODO: Validate inputs
-
 // Get Hex letter values
 function getHex(n) {
     if (!isNaN(parseInt(n))) {
@@ -12,7 +10,7 @@ function getHex(n) {
     switch (n) {
         case "A": return 10;
         case "B": return 11;
-        case  "C": return 12;
+        case "C": return 12;
         case "D": return 13;
         case "E": return 14;
         case "F": return 15;
@@ -21,22 +19,37 @@ function getHex(n) {
 
 // Convert decimal to hex
 function d2h(n) {
-    return b2h(d2b(n))
+    if (!validate(n, "decimal")) {
+        return "ERROR: Invalid input";
+    }
+    n = parseInt(n);
+    if (isNaN(n)) {
+        return "ERROR: Invalid input";
+    }
+    return b2h(d2b(n)).toString();
 }
 
 // Convert hex to decimal
 function h2d(n) {
+    if (!validate(n, "hex")) {
+        return "ERROR: Invalid input";
+    }
+    n = n.toUpperCase();
     var decimal = 0;
     var factor = 0;
     for (var i = n.length - 1; i >= 0; i--) {
        decimal += getHex(n.charAt(i)) * Math.pow(16, factor);
        factor += 1; 
     }
-    return decimal;
+    return decimal.toString();
 }
 
 // Convert decimal to binary
 function d2b(n) {
+    if (!validate(n, "decimal")) {
+        return "ERROR: Invalid input";
+    }
+    n = parseInt(n);
     var factor = 1;
     var binary = 0;
     while (n != 0) {
@@ -50,11 +63,15 @@ function d2b(n) {
         factor *= 10;
         n = Math.floor(n / 2);
     }
-    return binary;
+    return binary.toString();
 }
 
 // Convert binary to decimal
 function b2d(n) {
+    if (!validate(n, "binary")) {
+        return "ERROR: Invalid input";
+    }
+    n = parseInt(n);
     var factor = 0;
     var decimal = 0;
     while (n != 0) {
@@ -63,15 +80,19 @@ function b2d(n) {
         n = Math.floor(n / 10);
         factor += 1;
     }
-    return decimal;
+    return decimal.toString();
 }
 
 // Convert binary to hex
 function b2h(n) {
+    if (!validate(n, "binary")) {
+        return "ERROR: Invalid input";
+    }
+    n = parseInt(n);
     var hex = "";
     while (n != 0) {
         var fourgroup = n % 10000;
-        var hexval = convert(fourgroup, "binary", "hex");
+        var hexval = getHexFromBinary(fourgroup);
         hex = hexval + hex;
         n = Math.floor(n / 10000);
     }
@@ -80,28 +101,51 @@ function b2h(n) {
 
 // Convert hex to binary
 function h2b(n) {
-   return d2b(h2d(n))
+    if (!validate(n, "hex")) {
+        return "ERROR: Invalid input";
+    }
+    n = n.toUpperCase();
+    return d2b(h2d(n)).toString();
 }
 
-// Conversion table
-function convert(n, from, to) {
-    if (from == "binary") {
-        var decimal = b2d(n);
-        if (decimal <= 9) {
-            return decimal;
+function getHexFromBinary(n) {
+    var decimal = b2d(n);
+    if (decimal <= 9) {
+        return decimal;
+    }
+    switch (decimal) {
+        case 10: return "A";
+            break;
+        case 11: return "B";
+            break;
+        case 12: return "C";
+            break;
+        case 13: return "D";
+            break;
+        case 14: return "E";
+            break;
+        default: return "F";
+    }
+}
+
+function validate(n, inputType) {
+    if (inputType == "hex") {
+        var pattern = /^[g-zG-Z!@#$%^&*()_+\-=\[\]{};':"\\|,.<>\/?]*$/
+        if (pattern.exec(n) != null) {
+            return false;
         }
-        switch (decimal) {
-            case 10: return "A";
-                break;
-            case 11: return "B";
-                break;
-            case 12: return "C";
-                break;
-            case 13: return "D";
-                break;
-            case 14: return "E";
-                break;
-            default: return "F";
+        return true;
+    } else if (inputType == "decimal") {
+        var pattern = /^[a-zA-Z!@#$%^&*()_+\-=\[\]{};':"\\|,.<>\/?]*$/
+        if (pattern.exec(n) != null) {
+            return false;
         }
+        return true;
+    } else {
+        var pattern = /^[a-zA-Z2-9!@#$%^&*()_+\-=\[\]{};':"\\|,.<>\/?]*$/
+        if (pattern.exec(n) != null) {
+            return false;
+        }
+        return true;
     }
 }
