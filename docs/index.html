@@ -1,0 +1,61 @@
+<!doctype html>
+
+<html lang="en">
+    <head>
+        <meta charset="utf-8">
+        <meta name="viewport" content="width=device-width,height=device-height initial-scale=1">
+        <title>HDB Converter</title>
+        <meta name="description" content="Hex, binary, decimal conversion">
+        <meta name="author" content="Timothy Liu">
+       
+    </head>
+
+    <body>
+        Decimal: <input type="text" id="decimal_input"></input> &nbsp; <button id="decimal">Convert</button>
+        <br>
+        <br>
+        Binary: <input type="text" id="binary_input"></input> &nbsp; <button id="binary">Convert</button>
+        <br>
+        <br>
+        Hex: <input type="text" id="hex_input"></input> &nbsp; <button id="hex">Convert</button>
+        <script src="../conversion.js"></script>
+        <script>
+            function convertDecimal() {
+                var binaryInput = document.getElementById("binary_input");
+                var hexInput = document.getElementById("hex_input");
+                var decimalInput = document.getElementById("decimal_input").value;
+                if (decimalInput == null) {
+                    return;
+                }
+                binaryInput.value = d2b(decimalInput);
+                hexInput.value = d2h(decimalInput);
+            }
+
+            function convertBinary() {
+                var decimalInput = document.getElementById("decimal_input");
+                var hexInput = document.getElementById("hex_input");
+                var binaryInput = document.getElementById("binary_input").value;
+                if (binaryInput == null) {
+                    return;
+                }
+                decimalInput.value = b2d(binaryInput);
+                hexInput.value = b2h(binaryInput);
+            }
+
+            function convertHex() {
+                var binaryInput = document.getElementById("binary_input");
+                var decimalInput = document.getElementById("decimal_input");
+                var hexInput = document.getElementById("hex_input").value;
+                if (hexInput == null) {
+                    return;
+                }
+                binaryInput.value = h2b(hexInput);
+                decimalInput.value = h2d(hexInput);
+            }
+
+            document.getElementById("decimal").addEventListener("click", convertDecimal);
+            document.getElementById("binary").addEventListener("click", convertBinary);
+            document.getElementById("hex").addEventListener("click", convertHex);
+        </script>
+        </body>
+</html>
