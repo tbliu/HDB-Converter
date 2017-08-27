@@ -110,6 +110,7 @@ function h2b(n) {
 
 function getHexFromBinary(n) {
     var decimal = b2d(n);
+    decimal = parseInt(decimal);
     if (decimal <= 9) {
         return decimal;
     }
