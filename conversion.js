@@ -140,10 +140,20 @@ function validate(n, inputType) {
         if (pattern.exec(n) != null) {
             return false;
         }
+        var x = parseInt(n);
+        if (isNaN(n) || n < 0) {
+            return false;
+        }
         return true;
-    } else {
-        var pattern = /^[a-zA-Z2-9!@#$%^&*()_+\-=\[\]{};':"\\|,.<>\/?]*$/
-        if (pattern.exec(n) != null) {
+    } else { // binary
+        for (var i = 0; i < n.length; i++) {
+            if (n.charAt(i) == "0" || n.charAt(i) == "1") {
+                continue;
+            }
+            return false;
+        }
+        var x = parseInt(n);
+        if (isNaN(x)) {
             return false;
         }
         return true;

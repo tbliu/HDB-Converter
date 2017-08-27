@@ -7,18 +7,22 @@
         <title>HDB Converter</title>
         <meta name="description" content="Hex, binary, decimal conversion">
         <meta name="author" content="Timothy Liu">
-       
+        <link rel="stylesheet" href="hdb_styles.css"> 
     </head>
 
     <body>
-        Decimal: <input type="text" id="decimal_input"></input> &nbsp; <button id="decimal">Convert</button>
+        <div id="buttons">
+            <div id="content">
+                <label>Decimal:</label> <input type="text" id="decimal_input"></input> &nbsp; <button id="decimal">Convert</button>
         <br>
         <br>
-        Binary: <input type="text" id="binary_input"></input> &nbsp; <button id="binary">Convert</button>
+        <label>Binary:</label> <input type="text" id="binary_input"></input> &nbsp; <button id="binary">Convert</button>
         <br>
         <br>
-        Hex: <input type="text" id="hex_input"></input> &nbsp; <button id="hex">Convert</button>
-        <script src="../conversion.js"></script>
+        <label>Hex:</label> <input type="text" id="hex_input"></input> &nbsp; <button id="hex">Convert</button>
+            </div>
+        </div>
+        <script src="./conversion.js"></script>
         <script>
             function convertDecimal() {
                 var binaryInput = document.getElementById("binary_input");
